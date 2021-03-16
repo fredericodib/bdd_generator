@@ -1,3 +1,5 @@
+require 'rails/generators' 
+
 module BddGenerator
   class InstallGenerator < Rails::Generators::Base
 
