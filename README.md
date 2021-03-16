@@ -17,17 +17,21 @@ group :development, :test do
 end
 ```
 
-And then execute:
+Depois execute:
 
-    $ bundle install
+    $ rails generate cucumber:install
+    $ rails g bdd_generator:install
 
-Or install it yourself as:
-
-    $ gem install bdd_generator
 
 ## Usage
 
-TODO: Write usage instructions here
+Utilize normalmente o sistema em ambiênte de desenvolvimento para gerar logs, após isso, rode o seguinte comando para transformar os logs em testes bdd:
+
+    $ rails bdd_generator:build 
+
+Todos os testes serão gerados, para roda-los, basta usar
+
+    $ bundle exec cucumber 
 
 ## Development
 
