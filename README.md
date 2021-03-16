@@ -6,10 +6,15 @@ TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Adicione as seguintes gemas no ambiente de desenvolvimento e teste
 
 ```ruby
-gem 'bdd_generator'
+group :development, :test do
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'rspec'
+  gem 'bdd_generator', '1.0', git: "https://github.com/fredericodib/bdd_generator", branch: "main"
+end
 ```
 
 And then execute:
