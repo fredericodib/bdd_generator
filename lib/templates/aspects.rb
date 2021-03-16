@@ -17,6 +17,13 @@ if Rails.env.development?
              calls_to: :all_methods,
              for_types: controllers,
              method_options: :exclude_ancestor_methods) do |jp, obj, *_args|
+    
+    models.each do |m|
+      m.all.each do |r|
+        data << "#{m} #{r.id} #{r.to_json}\n" 
+      end
+    end
+
     result = jp.proceed
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "\n\nnew_test:\n" }
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "controller: #{obj.params[:controller]}\n" }
@@ -31,33 +38,6 @@ if Rails.env.development?
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "#{result}\n" }
     data = []
 
-    result
-  end
-
-  Aspect.new(:around,
-             calls_to: [:find, :second, :last, :where, /ll$/],
-             for_types: models,
-             method_options: %i[class]) do |jp, obj, *_args|
-    result = jp.proceed
-
-    if result.class != obj
-      result.each { |r| data << "#{obj} #{r.id} #{r.to_json}\n" }
-    else
-      data << "#{obj} #{result.id} #{result.to_json}\n"
-    end
-    result
-  end
-
-  Aspect.new(:around,
-             calls_to: %i[save update],
-             for_types: models) do |jp, obj, *_args|
-    obj.class.all
-    result = jp.proceed
-    # if result.class != obj
-    #   result.each { |r| data << "#{obj} #{r.id} #{r.to_json}\n" }
-    # else
-    #   data << "#{obj} #{result.id} #{result.to_json}\n"
-    # end
     result
   end
 end
