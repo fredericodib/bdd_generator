@@ -1,8 +1,8 @@
-require_relative 'lib/bdd_generator/version'
+
 
 Gem::Specification.new do |spec|
   spec.name          = "bdd_generator"
-  spec.version       = BddGenerator::VERSION
+  spec.version       = "1.0"
   spec.authors       = ["fredericodib"]
   spec.email         = ["fredericopdib@gmail.comclear"]
 

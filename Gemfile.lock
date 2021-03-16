@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bdd_generator (0.1.0)
+    bdd_generator (1.0)
 
 GEM
   remote: https://rubygems.org/
