@@ -36,20 +36,18 @@ And(/^The JSON response should be (.*?)$/) do |value|
     if obj.respond_to?(:key?) && obj.key?(key)
       obj.delete(key)
     elsif obj.respond_to?(:each)
-      r = nil
-      obj.find { |*a| r = remove_key(a.last, key) }
-      r
+      obj.each { |a| remove_key(a, key) }
     end
   end
   expected_json = JSON.parse(value)
-  remove_key(expected_json, 'id')
-  remove_key(expected_json, 'created_at')
-  remove_key(expected_json, 'updated_at')
+  remove_key(expected_json, "id")
+  remove_key(expected_json, "created_at")
+  remove_key(expected_json, "updated_at")
 
   true_json = JSON.parse(last_response.body)
-  remove_key(true_json, 'id')
-  remove_key(true_json, 'created_at')
-  remove_key(true_json, 'updated_at')
+  remove_key(true_json, "id")
+  remove_key(true_json, "created_at")
+  remove_key(true_json, "updated_at")
 
   expect(true_json).to eq expected_json
 end
