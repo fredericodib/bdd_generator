@@ -30,8 +30,8 @@ if Rails.env.development?
     headers = obj.request.headers['Authorization'] ? {Authorization: obj.request.headers['Authorization']} : {}
     fullpath = obj.request.fullpath
     method = obj.request.method
-    request_status = obj.status
     result = jp.proceed
+    status = obj.status
     
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "\n\nnew_test:\n" }
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "controller: #{request_controller}\n" }
@@ -42,7 +42,7 @@ if Rails.env.development?
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "method: #{method}\n" }
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "data:\n" }
     data.uniq.each { |d| File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write d } }
-    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "status: #{request_status}\n" }
+    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "status: #{status}\n" }
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "retorno:\n" }
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "#{result}\n" }
     data = []
