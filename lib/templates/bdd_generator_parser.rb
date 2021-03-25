@@ -20,6 +20,8 @@ class BddGeneratorParser
             i += 1
             params = file_data[i].split(' ', 2)[1]
             i += 1
+            headers = file_data[i].split(' ', 2)[1]
+            i += 1
             path = file_data[i].split(' ')[1]
             i += 1
             method = file_data[i].split(' ')[1]
@@ -32,7 +34,7 @@ class BddGeneratorParser
               f.write "\t\tGiven There is an instance of #{data[0]} with id #{data[1]} and params: #{data[2]}\n"
               i += 1
             end
-            f.write "\t\tWhen the client requests with #{method} #{path}, params: #{params}\n"
+            f.write "\t\tWhen the client requests with #{method} #{path}, body: #{params}, headers: #{headers}\n"
 
             status = file_data[i].split(' ')[1]
             f.write "\t\tThen the response status should be #{status}\n"

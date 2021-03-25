@@ -4,7 +4,11 @@ Given(/^There is an instance of (.*?) with id (.*?) and params: (.*?)$/) do |obj
   !eval(obj).find_by_id(id) && eval(obj).create(JSON.parse(params))
 end
 
-When(/^the client requests with (GET|POST|PUT|DELETE|PATCH) (.*?), params: (.*?)$/) do |request_type, path, params|
+When(/^the client requests with (GET|POST|PUT|DELETE|PATCH) (.*?), body: (.*?), headers: (.*?)$/) do |request_type, path, params, headers|
+  if JSON.parse(headers)['Authorization']
+    header 'Authorization', JSON.parse(headers)['Authorization']
+  end
+
   case request_type
   when 'GET'
     get path, JSON.parse(params)

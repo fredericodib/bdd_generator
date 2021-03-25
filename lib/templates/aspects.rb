@@ -24,16 +24,25 @@ if Rails.env.development?
       end
     end
 
+    request_controller = obj.params[:controller]
+    request_action = obj.params[:action]
+    body = obj.params
+    headers = obj.request.headers['Authorization'] ? {Authorization: obj.request.headers['Authorization']} : {}
+    fullpath = obj.request.fullpath
+    method = obj.request.method
+    request_status = obj.status
     result = jp.proceed
+    
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "\n\nnew_test:\n" }
-    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "controller: #{obj.params[:controller]}\n" }
-    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "action: #{obj.params[:action]}\n" }
-    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "params: #{obj.params.to_json}\n" }
-    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "path: #{obj.request.fullpath}\n" }
-    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "method: #{obj.request.method}\n" }
+    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "controller: #{request_controller}\n" }
+    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "action: #{request_action}\n" }
+    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "body: #{body.to_json}\n" }
+    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "headers: #{headers.to_json}\n" }
+    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "path: #{fullpath}\n" }
+    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "method: #{method}\n" }
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "data:\n" }
     data.uniq.each { |d| File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write d } }
-    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "status: #{obj.status}\n" }
+    File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "status: #{request_status}\n" }
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "retorno:\n" }
     File.open('features/bdd_generator_logs.txt', 'a') { |f| f.write "#{result}\n" }
     data = []
