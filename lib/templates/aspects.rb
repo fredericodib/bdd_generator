@@ -12,7 +12,9 @@ controllers = ApplicationController.subclasses
 models = ApplicationRecord.subclasses
 data = []
 
-if Rails.env.development?
+bdd_generator_monitoring_controllers = true
+
+if Rails.env.development? && bdd_generator_monitoring_controllers
   Aspect.new(:around,
              calls_to: :all_methods,
              for_types: controllers,

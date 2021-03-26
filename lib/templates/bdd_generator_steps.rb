@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 Given(/^There is an instance of (.*?) with id (.*?) and params: (.*?)$/) do |obj, id, params|
-  !eval(obj).find_by_id(id) && eval(obj).create(JSON.parse(params))
+  if !eval(obj).find_by_id(id)
+    o = eval(obj).new(JSON.parse(params))
+    o.save(:validate => false)
+
+  end
 end
 
 When(/^the client requests with (GET|POST|PUT|DELETE|PATCH) (.*?), body: (.*?), headers: (.*?)$/) do |request_type, path, params, headers|
@@ -43,11 +47,15 @@ And(/^The JSON response should be (.*?)$/) do |value|
   remove_key(expected_json, "id")
   remove_key(expected_json, "created_at")
   remove_key(expected_json, "updated_at")
+  remove_key(expected_json, "password_digest")
+  remove_key(expected_json, "token")
 
   true_json = JSON.parse(last_response.body)
   remove_key(true_json, "id")
   remove_key(true_json, "created_at")
   remove_key(true_json, "updated_at")
+  remove_key(true_json, "password_digest")
+  remove_key(true_json, "token")
 
   expect(true_json).to eq expected_json
 end
